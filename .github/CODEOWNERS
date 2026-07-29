@@ -1,0 +1,12 @@
+# CODEOWNERS
+# These owners are requested for review on every pull request that touches
+# the matching paths. Replace @REPLACE_WITH_GITHUB_USERNAME with a real
+# GitHub username or team (e.g. @your-org/backend-team) before this has
+# any effect - GitHub ignores CODEOWNERS entries it can't resolve.
+
+*                       @REPLACE_WITH_GITHUB_USERNAME
+
+/service-a/             @REPLACE_WITH_GITHUB_USERNAME
+/service-b/             @REPLACE_WITH_GITHUB_USERNAME
+/service-c/             @REPLACE_WITH_GITHUB_USERNAME
+/.github/               @REPLACE_WITH_GITHUB_USERNAME
