@@ -2,7 +2,7 @@
   "name": "service-c",
   "version": "1.0.0",
   "private": true,
-  "description": "Stats / Aggregator - exposes /stats and /metrics for Prometheus",
+  "description": "Stats - exposes /stats and /metrics for Prometheus",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js"
