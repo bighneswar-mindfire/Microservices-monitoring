@@ -39,7 +39,8 @@ export async function processJobs(): Promise<void> {
         await redis.set(`job_result:${job.id}`, JSON.stringify({ primesFound: count }));
         await redis.incr('total_jobs_completed');
 
-        timer();
+        const duration = timer();
+        await redis.incrbyfloat('total_processing_time_seconds', duration);
         jobsProcessedCounter.inc({ status: 'success' });
       }
     } catch (err) {
