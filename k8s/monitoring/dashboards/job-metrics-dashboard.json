@@ -9,42 +9,31 @@
     {
       "title": "Queue Length",
       "type": "timeseries",
-      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "gridPos": { "x": 0, "y": 0, "w": 8, "h": 8 },
       "targets": [{ "expr": "queue_length", "legendFormat": "queue_length" }],
       "fieldConfig": { "defaults": { "unit": "short" } }
     },
     {
-      "title": "Job Processing Time (p50 / p95)",
+      "title": "Job Counts",
       "type": "timeseries",
-      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "gridPos": { "x": 8, "y": 0, "w": 8, "h": 8 },
       "targets": [
-        {
-          "expr": "histogram_quantile(0.50, sum(rate(job_processing_time_seconds_bucket[5m])) by (le))",
-          "legendFormat": "p50"
-        },
-        {
-          "expr": "histogram_quantile(0.95, sum(rate(job_processing_time_seconds_bucket[5m])) by (le))",
-          "legendFormat": "p95"
-        }
+        { "expr": "total_jobs_submitted", "legendFormat": "submitted" },
+        { "expr": "total_jobs_completed", "legendFormat": "completed" }
       ],
-      "fieldConfig": { "defaults": { "unit": "s" } }
+      "fieldConfig": { "defaults": { "unit": "short" } }
     },
     {
-      "title": "Job Errors Total",
-      "type": "stat",
-      "gridPos": { "x": 0, "y": 8, "w": 24, "h": 6 },
-      "targets": [{ "expr": "sum(job_errors_total)", "legendFormat": "errors" }],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "thresholds": {
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 1 }
-            ]
-          }
+      "title": "CPU (Service B pods)",
+      "type": "timeseries",
+      "gridPos": { "x": 16, "y": 0, "w": 8, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"default\", pod=~\"service-b-.*\"}[5m])) by (pod)",
+          "legendFormat": "{{pod}}"
         }
-      }
+      ],
+      "fieldConfig": { "defaults": { "unit": "short" } }
     }
   ]
 }

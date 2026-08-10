@@ -18,9 +18,9 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 3000
-          env:
-            - name: REDIS_HOST
-              value: 'redis'
+          envFrom:
+            - configMapRef:
+                name: redis-config
 ---
 apiVersion: v1
 kind: Service
