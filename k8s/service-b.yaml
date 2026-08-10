@@ -48,7 +48,6 @@ spec:
   selector:
     app: service-b
 ---
-# Horizontal Pod Autoscaler for Service B
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

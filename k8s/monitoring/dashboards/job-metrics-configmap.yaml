@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: job-metrics-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: '1'
+data:
+  job-metrics-dashboard.json: |
+    {
+      "title": "Job Processing Metrics",
+      "uid": "job-processing-metrics",
+      "schemaVersion": 39,
+      "editable": true,
+      "time": { "from": "now-30m", "to": "now" },
+      "refresh": "10s",
+      "panels": [
+        {
+          "title": "Queue Length",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+          "targets": [{ "expr": "queue_length", "legendFormat": "queue_length" }],
+          "fieldConfig": { "defaults": { "unit": "short" } }
+        },
+        {
+          "title": "Job Processing Time (p50 / p95)",
+          "type": "timeseries",
+          "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(job_processing_time_seconds_bucket[5m])) by (le))",
+              "legendFormat": "p50"
+            },
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(job_processing_time_seconds_bucket[5m])) by (le))",
+              "legendFormat": "p95"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "s" } }
+        },
+        {
+          "title": "Job Errors Total",
+          "type": "stat",
+          "gridPos": { "x": 0, "y": 8, "w": 24, "h": 6 },
+          "targets": [{ "expr": "sum(job_errors_total)", "legendFormat": "errors" }],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "thresholds": {
+                "steps": [
+                  { "color": "green", "value": null },
+                  { "color": "red", "value": 1 }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }

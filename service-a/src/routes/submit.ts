@@ -4,7 +4,7 @@ import { redis } from '../redis';
 
 const router = Router();
 
-router.all('/submit', async (_req, res) => {
+router.post('/submit', async (_req, res) => {
   try {
     const jobId = uuidv4();
     const jobData = { id: jobId, createdAt: Date.now() };
